@@ -1,0 +1,39 @@
+- name: xfs
+  apt: name=xfsprogs state=present
+  tags: [rabbitmq-state]
+
+- name: format rabbitmq mnesia device
+  filesystem: fstype=xfs dev=/dev/xvdf
+  tags: [rabbitmq-state]
+
+- name: mount rabbitmq mnesia device
+  mount: >
+    name=/var/lib/rabbitmq/mnesia
+    src=/dev/xvdf
+    fstype=xfs
+    dump=0
+    passno=0
+    state=mounted
+  register: mnesia_device_mount
+  tags: [rabbitmq-state]
+  
+- name: create rabbitmq state dirs
+  file: >
+    path={{ item }}
+    owner=rabbitmq
+    group=rabbitmq
+    mode=0755
+    state=directory
+  with_items:
+    - /var/lib/rabbitmq
+    - /var/lib/rabbitmq/mnesia
+  tags: [rabbitmq-state]
+
+- name: rabbitmq erlang cookie
+  template: >
+    src=rabbitmq_erlang_cookie.j2
+    dest="{{ rabbitmq_erlang_cookie_file }}"
+    owner=rabbitmq
+    group=rabbitmq
+    mode=0600
+  tags: [rabbitmq-state]

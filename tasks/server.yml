@@ -1,0 +1,7 @@
+- name: rabbitmq server defaults
+  template: >
+    src=rabbitmq_server_default.j2
+    dest="/etc/default/rabbitmq"
+    owner=root
+    group=root
+    mode=0644

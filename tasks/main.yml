@@ -1,0 +1,8 @@
+- name: create rabbitmq user
+  user: name=rabbitmq home=/var/lib/rabbitmq state=present
+
+- include: state.yml
+  tags: [rabbitmq-state]
+
+- include: server.yml
+  tags: [rabbitmq-server]

@@ -1,0 +1,9 @@
+---
+
+rabbitmq_state_dir: /var/lib/rabbitmq
+
+rabbitmq_mnesia_dir: "{{ rabbitmq_state_dir }}/mnesia"
+
+rabbitmq_erlang_cookie_file: "{{ rabbitmq_state_dir }}/.erlang.cookie"
+
+rabbitmq_server_ulimit: 1000
